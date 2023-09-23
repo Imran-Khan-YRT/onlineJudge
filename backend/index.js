@@ -3,7 +3,23 @@ const { generateFile } = require('./generateFile');
 const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
+
+async function connectToDatabase() {
+    try {
+        await mongoose.connect("mongodb://localhost/compilerapp", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("Successfully connected to MongoDB database!");
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+        process.exit(1);
+    }
+}
+
+connectToDatabase();
 const app = express();
 
 // for request body format urlencoded to work

@@ -17,8 +17,14 @@ function App() {
       setOutput(data.output);
       console.log(data);
     }
-    catch (err) {
-      console.log(err.response)
+    catch ({ response }) {
+      if (response) {
+        const errMsg = response.data.err.stderr
+        setOutput(errMsg)
+      }
+      else {
+        setOutput("Error connecting to the server.Please check your connection!")
+      }
     }
   }
   return (
@@ -41,7 +47,8 @@ function App() {
       <br />
       <button className='submit_btn' onClick={handleSubmit}>Submit</button>
       <br />
-      <p>{output && <span>Output : </span>}{output}</p>
+      {output && <h3 >Output : </h3>}
+      <p>{output}</p>
     </div>
   );
 }

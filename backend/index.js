@@ -1,5 +1,5 @@
 const express = require("express");
-
+const { generateFile } = require('./generateFile');
 const app = express();
 
 // for request body format urlencoded to work
@@ -10,13 +10,14 @@ app.get('/', (req, res) => {
     return res.send({ "helo": "world" });
 });
 
-app.post("/run", (req, res) => {
+app.post("/run", async (req, res) => {
     const { language = "cpp", code } = req.body;
     // code body cant be empty
     if (code === undefined) {
         return res.status(400).json({ success: false, error: "Empty Code body" })
     }
-    return res.json({ language, code });
+    const filePath = await generateFile(language, code)
+    return res.json({ filePath });
 })
 
 

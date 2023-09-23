@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require("fs");
 
+const { v4: uuid } = require('uuid')
+
 const dirCodes = path.join(__dirname, "codes");
 // if codes folder doesnt exist
 if (!fs.existsSync(dirCodes)) {
@@ -9,7 +11,9 @@ if (!fs.existsSync(dirCodes)) {
 
 
 const generateFile = async (format, code) => {
-
+    const jobId = uuid();
+    const fileName = `${jobId}.${format}`;
+    const filePath = path.join(dirCodes, fileName);
 }
 
 module.exports = { generateFile }

@@ -4,6 +4,7 @@ const { executeCpp } = require("./executeCpp");
 const { executePy } = require("./executePy");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const Job = require("./models/Job.js");
 
 
 async function connectToDatabase() {
@@ -39,15 +40,19 @@ app.post("/run", async (req, res) => {
     }
     try {
         let output;
-        const filePath = await generateFile(language, code);
+        const filepath = await generateFile(language, code);
+
+        const job = await new Job({ language, filepath }).save();
+        console.log(job)
+
         if (language === "py") {
-            output = await executePy(filePath);
+            output = await executePy(filepath);
         }
         else {
-            output = await executeCpp(filePath);
+            output = await executeCpp(filepath);
         }
 
-        return res.json({ filePath, output });
+        return res.json({ filepath, output });
     }
     catch (err) {
         // in case any error in the code file

@@ -13,9 +13,9 @@ if (!fs.existsSync(dirCodes)) {
 const generateFile = async (format, content) => {
     const jobId = uuid();
     const fileName = `${jobId}.${format}`;
-    const filePath = path.join(dirCodes, fileName);
-    await fs.writeFileSync(filePath, content);
-    return filePath;
+    const filepath = path.join(dirCodes, fileName);
+    await fs.writeFileSync(filepath, content);
+    return filepath;
 }
 
 module.exports = { generateFile }

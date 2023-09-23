@@ -1,12 +1,14 @@
 const express = require("express");
 const { generateFile } = require('./generateFile');
-const { executeCpp } = require("./executeCpp")
+const { executeCpp } = require("./executeCpp");
+const cors = require("cors");
 
 const app = express();
 
 // for request body format urlencoded to work
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     return res.send({ "helo": "world" });

@@ -8,8 +8,8 @@ function App() {
   const [language, setLanguage] = useState("cpp")
   const handleSubmit = async () => {
     const payload = {
-      language: "cpp",
-      code
+      language: language,
+      code: code
     }
 
     try {

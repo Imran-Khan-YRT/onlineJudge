@@ -1,6 +1,7 @@
 const express = require("express");
 const { generateFile } = require('./generateFile');
 const { executeCpp } = require("./executeCpp");
+const { executePy } = require("./executePy");
 const cors = require("cors");
 
 const app = express();
@@ -21,8 +22,15 @@ app.post("/run", async (req, res) => {
         return res.status(400).json({ success: false, error: "Empty Code body" })
     }
     try {
+        let output;
         const filePath = await generateFile(language, code);
-        const output = await executeCpp(filePath);
+        if (language === "py") {
+            output = await executePy(filePath);
+        }
+        else {
+            output = await executeCpp(filePath);
+        }
+
         return res.json({ filePath, output });
     }
     catch (err) {
